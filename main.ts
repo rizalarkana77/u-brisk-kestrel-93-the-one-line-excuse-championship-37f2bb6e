@@ -18,6 +18,21 @@ function validate(line: string): void {
   if (line.trim().length === 0) {
     throw new Error("Line must not be only whitespace");
   }
+  if (line !== line.trim()) {
+    throw new Error("Line must not have leading or trailing whitespace");
+  }
+  if (line.includes("\t")) {
+    throw new Error("Line must not contain tab characters");
+  }
+  if (line.includes("  ")) {
+    throw new Error("Line must not contain consecutive spaces");
+  }
+  for (const ch of line) {
+    const code = ch.charCodeAt(0);
+    if (code < 32 || code === 127) {
+      throw new Error("Line must contain only printable characters");
+    }
+  }
 }
 
 function main(): void {
